@@ -1,1 +1,5 @@
-ex00 ex01 ex02 ex03 ex04 ex05 minwcho@42SEOUL.KR API:89C9D1C3-21EC-497D-A12B-395970FD453F May 16 23:24:53 2022
+Credentials cache: API:4BC48C47-223A-4230-A54E-C6E2D95D56DD
+        Principal: minwcho@42SEOUL.KR
+
+  Issued                Expires               Principal
+May 17 15:52:45 2022  May 18 01:52:41 2022  krbtgt/42SEOUL.KR@42SEOUL.KR
