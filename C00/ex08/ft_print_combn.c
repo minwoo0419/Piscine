@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 11:34:05 by minwcho           #+#    #+#             */
-/*   Updated: 2022/05/18 12:36:01 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/05/18 17:53:39 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	comb(int n, int cnt, int t, char *num)
 	while (i <= 10 - n + cnt)
 	{
 		num[cnt] = i + '0';
-		comb(n, cnt+1, i, num);
+		comb(n, cnt + 1, i, num);
 		i++;
 	}
 }
@@ -43,7 +43,7 @@ void	ft_print_combn(int n)
 	while (i < 10 - n)
 	{
 		num[0] = i + '0';
-		comb(n, cnt+1, i, num);
+		comb(n, cnt + 1, i, num);
 		i++;
 	}
 	while (i < 10)
