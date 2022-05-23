@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 17:38:11 by minwcho           #+#    #+#             */
-/*   Updated: 2022/05/21 19:34:19 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/05/23 15:35:03 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 	dest[i + j] = '\0';
 	while (src[j])
 		j++;
+	if (size < i)
+		return (j + size);
 	return (i + j);
 }
