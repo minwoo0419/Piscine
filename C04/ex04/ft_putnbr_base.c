@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 20:10:53 by minwcho           #+#    #+#             */
-/*   Updated: 2022/05/21 21:50:19 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/05/23 15:04:33 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	dis_able(char *base)
 
 void	change(int nbr, char *base, int size)
 {
-	int		num;
+	int	num;
 
 	if (nbr == 0)
 		return ;
@@ -58,8 +58,8 @@ void	change(int nbr, char *base, int size)
 
 void	ft_putnbr_base(int nbr, char *base)
 {
-	int		size;
-	int		num;
+	int	size;
+	int	num;
 
 	if (dis_able(base))
 		return ;
