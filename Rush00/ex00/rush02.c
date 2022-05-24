@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 13:36:19 by minwcho           #+#    #+#             */
-/*   Updated: 2022/05/21 13:53:24 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/05/24 14:28:10 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putchar(char c);
 
-int	is_a(int x, int y, int i, int j)
+int	is_a(int x, int i, int j)
 {
 	if (i == 1)
 		if (j == 1 || j == x)
@@ -56,7 +56,7 @@ void	rush(int x, int y)
 		j = 1;
 		while (j <= x)
 		{
-			if (is_a(x, y, i, j))
+			if (is_a(x, i, j))
 				ft_putchar('A');
 			else if (is_b(x, y, i, j))
 				ft_putchar('B');

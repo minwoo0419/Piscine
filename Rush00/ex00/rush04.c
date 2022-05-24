@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:27:45 by minwcho           #+#    #+#             */
-/*   Updated: 2022/05/21 14:42:12 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/05/22 14:08:31 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	ft_putchar(char c);
 
 int	is_anglea(int x, int y, int i, int j)
 {
-	if ((i == 1 && j == 1) || (i == y && j == x))
+	if ((i == 1 && j == 1))
 		return (1);
+	if (x != 1 && y != 1)
+		if (i == y && j == x)
+			return (1);
 	return (0);
 }
 
