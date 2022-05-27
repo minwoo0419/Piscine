@@ -6,10 +6,9 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 17:38:11 by minwcho           #+#    #+#             */
-/*   Updated: 2022/05/25 16:17:31 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/05/26 13:22:20 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 {
 	unsigned int	i;
@@ -19,7 +18,7 @@ unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 	while (dest[i] && (i < size))
 		i++;
 	j = 0;
-	if (i != size)
+	if (size > i)
 	{
 		while (src[j] && (i + j) < (size - 1))
 		{
