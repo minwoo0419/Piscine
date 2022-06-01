@@ -38,37 +38,35 @@ int	base_strlen(int num, int size)
 	return (i);
 }
 
-void	itoa_base(int num, char *str, char *base, int size)
+void	itoa_base(long num, char *str, char *base, int size)
 {
 	int	i;
+    int sum;
 
-	i = base_strlen(num, size);
-	str[i--] = 0;
-	if (num == 0)
-		str[i] = base[num % size];
-	if (num < 0)
-	{
-		str[0] = '-';
-		str[i] = base[-(num % size)];
-		num = -(num / size);
-		i--;
-	}
-	if (num > 0)
-	{
-		while (num)
-		{
-			str[i] = base[num % size];
-			num = num / size;
-			i--;
-		}
-	}
+    sum = 1;
+    i = 0;
+    if (num < 0)
+    {
+        str[i++] = '-';
+        num = -num;
+    }
+    while (num / sum >= size)
+        sum = sum * size;
+    while (sum)
+    {
+        str[i] = base[num / sum];
+        num = num % sum;
+        sum = sum / size;
+        i++;
+    }
+    str[i] = 0;
 }
 
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
-	int		num;
-	int		size;
-	char	*str;
+	long		num;
+	int		    size;
+	char	    *str;
 
 	if (dis_able(base_from) || dis_able(base_to))
 		return (0);
