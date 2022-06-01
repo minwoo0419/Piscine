@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 12:05:08 by minwcho           #+#    #+#             */
-/*   Updated: 2022/05/23 16:29:01 by minwcho          ###   ########.fr       */
+/*   Created: 2022/06/01 16:49:38 by minwcho           #+#    #+#             */
+/*   Updated: 2022/06/01 16:49:50 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@ int	is_check(char c, char *charset)
 	int	i;
 
 	i = 0;
+	if (c == '\0')
+		return (1);
 	while (charset[i])
 	{
-		if (c == charset[i] || c == '\0')
+		if (c == charset[i])
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-int	ft_strlen(char *str, char *charset)
+int	ft_strlen3(char *str, char *charset)
 {
 	int	i;
 	int	j;
@@ -37,19 +39,17 @@ int	ft_strlen(char *str, char *charset)
 		j++;
 	while (str[i])
 	{
-		if (!is_check(str[i], charset) && is_check(str[i-1], charset))
+		if (!is_check(str[i], charset) && is_check(str[i - 1], charset))
 			j++;
 		i++;
 	}
 	return (j);
 }
 
-char	*ft_strncpy(char *src, int size)
+void	ft_strncpy(char *dest, char *src, int size)
 {
 	int		i;
-	char	*dest;
 
-	dest = (char *)malloc(sizeof(char) * (size + 1));
 	i = 0;
 	while (i < size)
 	{
@@ -57,9 +57,7 @@ char	*ft_strncpy(char *src, int size)
 		i++;
 	}
 	dest[i] = '\0';
-	return (dest);
 }
-
 
 char	**ft_split(char *str, char *charset)
 {
@@ -68,7 +66,7 @@ char	**ft_split(char *str, char *charset)
 	int		j;
 	int		k;
 
-	s = (char **)malloc(sizeof(char *) * (ft_strlen(str, charset) + 1));
+	s = (char **)malloc(sizeof(char *) * (ft_strlen3(str, charset) + 1));
 	if (!s)
 		return (0);
 	i = 0;
@@ -77,12 +75,13 @@ char	**ft_split(char *str, char *charset)
 	{
 		j = 0;
 		while (!is_check(str[i + j], charset))
-		{
 			j++;
-		}
 		if (j)
 		{
-			s[k] = ft_strncpy(str + i, j);
+			s[k] = (char *)malloc(sizeof(char) * (j + 1));
+			if (!s[k])
+				return (0);
+			ft_strncpy(s[k], str + i, j);
 			k++;
 		}
 		i = i + j;

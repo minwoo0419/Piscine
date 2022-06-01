@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/22 21:03:00 by minwcho           #+#    #+#             */
-/*   Updated: 2022/05/22 21:11:07 by minwcho          ###   ########.fr       */
+/*   Created: 2022/06/01 16:47:24 by minwcho           #+#    #+#             */
+/*   Updated: 2022/06/01 16:47:34 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	ft_ultimate_range(int **range, int min, int max)
 		*range = NULL;
 		return (0);
 	}
-	*num = (int *)malloc(sizeof(int) * (max - min));
-	if (!dst)
+	num = (int *)malloc(sizeof(int) * (max - min));
+	if (!num)
 	{
 		*range = NULL;
 		return (-1);

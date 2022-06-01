@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 13:24:40 by minwcho           #+#    #+#             */
-/*   Updated: 2022/05/23 13:25:07 by minwcho          ###   ########.fr       */
+/*   Created: 2022/06/01 16:49:25 by minwcho           #+#    #+#             */
+/*   Updated: 2022/06/01 16:49:35 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_number(char c, char *base)
 	return (-1);
 }
 
-int	ft_strlen(char *base)
+int	ft_strlen2(char *base)
 {
 	int	i;
 
@@ -46,14 +46,20 @@ int	ft_strlen(char *base)
 int	dis_able(char *base)
 {
 	int	i;
+	int	j;
 
-	i = 1;
+	i = 0;
 	if (base[0] == '\0' || base[1] == '\0')
 		return (1);
 	while (base[i])
 	{
-		if (base[i] == base[i - 1])
-			return (1);
+		j = i + 1;
+		while (base[j])
+		{
+			if (base[i] == base[j])
+				return (1);
+			j++;
+		}
 		i++;
 	}
 	i = 0;
@@ -80,7 +86,7 @@ int	ft_atoi_base(char *str, char *base)
 	i = 0;
 	min = 1;
 	sum = 0;
-	size = ft_strlen(base);
+	size = ft_strlen2(base);
 	while (is_space(str[i]))
 		i++;
 	while (str[i] == '-' || str[i] == '+')
