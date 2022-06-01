@@ -18,19 +18,17 @@ int	dis_able(char *base);
 
 int	ft_strlen2(char *base);
 
-int	base_strlen(int num, int size)
+int	base_strlen(long num, int size)
 {
 	int	i;
 
-	i = 0;
-	if (num == 0)
-		return (1);
+	i = 1;
 	if (num < 0)
 	{
-		num = -1 * (num / size);
-		i = i + 2;
+		num = -1 * num;
+		i++;
 	}
-	while (num > 0)
+	while (num / size > 0)
 	{
 		num = num / size;
 		i++;
