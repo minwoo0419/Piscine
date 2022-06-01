@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:47:37 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 16:47:47 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/01 17:00:37 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 	int		k;
 
 	s = (char *)malloc(sizeof(char) * (ft_strlen(size, strs, sep) + 1));
+	if (!s)
+		return (0);
 	i = 0;
 	k = 0;
 	while (i < size)

@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:47:24 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 16:47:34 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/01 16:59:54 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	ft_ultimate_range(int **range, int min, int max)
 
 	if (min >= max)
 	{
-		*range = NULL;
+		*range = 0;
 		return (0);
 	}
 	num = (int *)malloc(sizeof(int) * (max - min));
 	if (!num)
 	{
-		*range = NULL;
+		*range = 0;
 		return (-1);
 	}
 	i = min;

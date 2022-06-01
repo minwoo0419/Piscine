@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:49:25 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 16:49:35 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/01 17:01:55 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,15 @@ int	dis_able(char *base)
 	int	i;
 	int	j;
 
-	i = 0;
+	i = -1;
 	if (base[0] == '\0' || base[1] == '\0')
 		return (1);
-	while (base[i])
+	while (base[++i])
 	{
 		j = i + 1;
-		while (base[j])
-		{
+		while (base[++j])
 			if (base[i] == base[j])
 				return (1);
-			j++;
-		}
-		i++;
 	}
 	i = 0;
 	while (base[i])

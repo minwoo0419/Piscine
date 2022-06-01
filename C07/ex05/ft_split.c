@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:49:38 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 16:49:50 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:05:12 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,22 @@ int	ft_strlen3(char *str, char *charset)
 	return (j);
 }
 
-void	ft_strncpy(char *dest, char *src, int size)
+char	*ft_strncpy(char *src, int size)
 {
+	char	*dest;
 	int		i;
 
+	dest = (char *)malloc(sizeof(char) * (size + 1));
+	if (!dest)
+		return (0);
 	i = 0;
 	while (i < size)
 	{
 		dest[i] = src[i];
 		i++;
 	}
-	dest[i] = '\0';
+	dest[i] = 0;
+	return (dest);
 }
 
 char	**ft_split(char *str, char *charset)
@@ -78,14 +83,10 @@ char	**ft_split(char *str, char *charset)
 			j++;
 		if (j)
 		{
-			s[k] = (char *)malloc(sizeof(char) * (j + 1));
-			if (!s[k])
-				return (0);
-			ft_strncpy(s[k], str + i, j);
+			s[k] = ft_strncpy(str + i, j);
 			k++;
 		}
-		i = i + j;
-		i++;
+		i = i + j + 1;
 	}
 	s[k] = 0;
 	return (s);
