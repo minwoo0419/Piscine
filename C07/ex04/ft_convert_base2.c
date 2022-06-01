@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:49:25 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 17:01:55 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:13:00 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ int	ft_atoi_base(char *str, char *base)
 	int	sum;
 	int	size;
 
-	if (dis_able(base))
-		return (0);
 	i = 0;
 	min = 1;
 	sum = 0;
@@ -93,8 +91,8 @@ int	ft_atoi_base(char *str, char *base)
 	}
 	while (is_number(str[i], base) != -1)
 	{
-		sum = sum * size + is_number(str[i], base);
+		sum = sum * size + is_number(str[i], base) * min;
 		i++;
 	}
-	return (min * sum);
+	return (sum);
 }

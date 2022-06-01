@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:47:37 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 17:00:37 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:13:55 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 			s[k++] = sep[j++];
 		i++;
 	}
-	s[k] = '\0';
+	s[k] = 0;
 	return (s);
 }
