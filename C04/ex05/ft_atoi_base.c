@@ -46,15 +46,17 @@ int	ft_strlen(char *base)
 int	dis_able(char *base)
 {
 	int	i;
+	int	j;
 
-	i = 1;
+	i = -1;
 	if (base[0] == '\0' || base[1] == '\0')
 		return (1);
-	while (base[i])
+	while (base[++i])
 	{
-		if (base[i] == base[i - 1])
-			return (1);
-		i++;
+		j = i + 1;
+		while (base[++j])
+			if (base[i] == base[j])
+				return (1);
 	}
 	i = 0;
 	while (base[i])
