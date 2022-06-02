@@ -1,7 +1,6 @@
 CC = gcc
-
-TARGET	= libft.a
 CFLAGS	= -Wall -Wextra -Werror
+TARGET	= libft.a
 AR = ar crs
 SRC_DIR = srcs
 HD_DIR = includes
