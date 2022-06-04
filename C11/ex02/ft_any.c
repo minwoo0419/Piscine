@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 15:31:22 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 15:41:09 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/04 11:37:16 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@ int	ft_any(char **tab, int (*f)(char*))
 	int	i;
 
 	i = 0;
-	while (*tab[i])
+	while (tab[i])
 	{
-		if (f(*tab[i]))
+		if (f(tab[i]))
 			return (1);
 		i++;
 	}

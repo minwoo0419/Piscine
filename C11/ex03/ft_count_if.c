@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 15:31:25 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 15:41:16 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/04 11:37:30 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	ft_count_if(char **tab, int length, int (*f)(char*))
 
 	i = 0;
 	cnt = 0;
-	while (*tab[i])
+	while (tab[i])
 	{
-		if (f(*tab[i]))
+		if (f(tab[i]))
 			cnt++;
 		i++;
 	}

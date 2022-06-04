@@ -2,12 +2,12 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 TARGET = do-op
 SRCS = $(wildcard *.c)
-OBJS = $(SRCS: .c = .o)
+OBJS = $(SRCS:.c =.o)
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
-$(OBJS): $(SRGC)
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

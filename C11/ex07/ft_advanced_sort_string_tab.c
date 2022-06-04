@@ -6,11 +6,21 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 15:32:39 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 15:44:18 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/04 12:15:46 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_swap(char **a, char **b)
+int	ft_strlen(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+void	ft_swap2(char **a, char **b)
 {
 	char	*tmp;
 
@@ -22,12 +32,20 @@ void	ft_swap(char **a, char **b)
 void	ft_advanced_sort_string_tab(char **tab, int (*cmp)(char *, char *))
 {
 	int	i;
+	int	j;
+	int	size;
 
-	i = 1;
-	while (tab[i])
+	i = 0;
+	size = ft_strlen(tab) - 1;
+	while (i < size)
 	{
-		if (cmp(tab[i - 1], tab[i]) > 0)
-			ft_swap(tab[i - 1], tab[i]);
+		j = 0;
+		while (j < size - i)
+		{
+			if (cmp(tab[j], tab[j + 1]) > 0)
+				ft_swap2(&tab[j], &tab[j + 1]);
+			j++;
+		}
 		i++;
 	}
 }

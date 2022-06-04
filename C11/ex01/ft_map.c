@@ -6,9 +6,10 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 15:31:35 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 15:41:02 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/04 11:28:00 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <stdlib.h>
 
 int	*ft_map(int *tab, int length, int (*f)(int))
 {
