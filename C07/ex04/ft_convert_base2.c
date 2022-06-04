@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:49:25 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 18:13:00 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/02 15:53:25 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,20 @@ int	dis_able(char *base)
 	while (base[++i])
 	{
 		j = i + 1;
-		while (base[++j])
+		while (base[j])
+		{
 			if (base[i] == base[j])
 				return (1);
+			j++;
+		}
 	}
-	i = 0;
-	while (base[i])
+	i = -1;
+	while (base[++i])
 	{
 		if (base[i] == '-' || base[i] == '+')
 			return (1);
 		if (is_space(base[i]))
 			return (1);
-		i++;
 	}
 	return (0);
 }
@@ -89,7 +91,7 @@ int	ft_atoi_base(char *str, char *base)
 			min = min * -1;
 		i++;
 	}
-	while (is_number(str[i], base) != -1)
+	while (str[i] && is_number(str[i], base) != -1)
 	{
 		sum = sum * size + is_number(str[i], base) * min;
 		i++;

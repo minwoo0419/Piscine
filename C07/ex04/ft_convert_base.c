@@ -6,7 +6,7 @@
 /*   By: minwcho <minwcho@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:47:54 by minwcho           #+#    #+#             */
-/*   Updated: 2022/06/01 20:57:01 by minwcho          ###   ########.fr       */
+/*   Updated: 2022/06/02 15:52:28 by minwcho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	dis_able(char *base);
 
 int	ft_strlen2(char *base);
 
-int	base_strlen(long num, int size)
+int	base_strlen(long long num, int size)
 {
 	int	i;
 
@@ -36,35 +36,35 @@ int	base_strlen(long num, int size)
 	return (i);
 }
 
-void	itoa_base(long num, char *str, char *base, int size)
+void	itoa_base(long long num, char *str, char *base, int size)
 {
 	int	i;
-    int sum;
+	int	sum;
 
-    sum = 1;
-    i = 0;
-    if (num < 0)
-    {
-        str[i++] = '-';
-        num = -num;
-    }
-    while (num / sum >= size)
-        sum = sum * size;
-    while (sum)
-    {
-        str[i] = base[num / sum];
-        num = num % sum;
-        sum = sum / size;
-        i++;
-    }
-    str[i] = 0;
+	sum = 1;
+	i = 0;
+	if (num < 0)
+	{
+		str[i++] = '-';
+		num = -num;
+	}
+	while (num / sum >= (long long)size)
+		sum = sum * size;
+	while (sum)
+	{
+		str[i] = base[num / sum];
+		num = num % sum;
+		sum = sum / size;
+		i++;
+	}
+	str[i] = 0;
 }
 
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
-	long		num;
-	int		    size;
-	char	    *str;
+	long long		num;
+	int				size;
+	char			*str;
 
 	if (dis_able(base_from) || dis_able(base_to))
 		return (0);
