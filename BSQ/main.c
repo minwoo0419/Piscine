@@ -2,42 +2,62 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 typedef struct s_location
 {
-	int x;
-	int y;
-	int square;
+	int	x;
+	int	y;
+	int	square;
 }	t_location;
 
-void	print_square(t_location point, char **map, int size, char fill_map)
+void	print_square(char **map, int size)
 {
 	int	i;
-	int	j;
-	int start_x;
-	int start_y;
+	int	x_size;
 
 	i = 0;
-	start_x = point.x - point.square + 1;
-	start_y = point.y - point.square + 1;
+	x_size = 0;
+	while (map[0][x_size])
+		x_size++;
 	while (i < size)
 	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (i >= start_y && i <= point.y && j >= start_x && j <= point.x)
-				write(1, &fill_map, 1);
-			else
-				write(1, &map[i][j], 1);
-			j++;
-		}
+		write(1, map[i], x_size);
 		write(1, "\n", 1);
 		i++;
 	}
 }
-int find_min(int a, int b, int c)
-{
-	int n;
 
+void	change_map(t_location max, char fill_map, char **map)
+{
+	int	start_x;
+	int	start_y;
+	int	temp;
+
+	start_x = max.x - max.square + 1;
+	start_y = max.y - max.square + 1;
+	temp = start_x;
+	while (start_y <= max.y)
+	{
+		start_x = temp;
+		while (start_x <= max.x)
+		{
+			map[start_y][start_x] = fill_map;
+			start_x++;
+		}
+		start_y++;
+	}
+}
+
+int	find_min(int **dp, int i, int j)
+{
+	int	a;
+	int	b;
+	int	c;
+	int	n;
+
+	a = dp[i][j - 1];
+	b = dp[i - 1][j];
+	c = dp[i - 1][j - 1];
 	n = a;
 	if (n > b)
 		n = b;
@@ -46,41 +66,48 @@ int find_min(int a, int b, int c)
 	return (n);
 }
 
-struct s_location	find_max_square(char **map, char empty, int y_size, char disable)
+int	find_max(int a, int b)
 {
+	if (a > b)
+		return (a);
+	else
+		return (b);
+}
+
+int	**find_first_line(t_location map_size, char **map, char empty)
+{
+	int	i;
 	int	**dp;
-	int	i; // 가로의 길이
-	int	j; // 세로의 길이
+	int	limit;
+
+	i = -1;
+	limit = find_max(map_size.y, map_size.x);
+	dp = (int **)malloc(sizeof(int *) * map_size.y);
+	while (++i < map_size.y)
+		dp[i] = (int *)malloc(sizeof(int) * map_size.x);
+	i = -1;
+	while (++i < limit)
+	{
+		if (i < map_size.y && map[i][0] == empty)
+			dp[i][0] = 1;
+		else if (i < map_size.y && map[i][0] != empty)
+			dp[i][0] = 0;
+		if (i < map_size.x && map[0][i] == empty)
+			dp[0][i] = 1;
+		else if (i < map_size.x && map[0][i] != empty)
+			dp[0][i] = 0;
+	}
+	return (dp);
+}
+
+t_location	use_dp(t_location map_size, int **dp, char **map, char disable)
+{
+	int			i;
+	int			j;
 	t_location	max;
-	t_location	map_size;
 
 	i = 0;
-	j = 0;
-	map_size.x = 0;
-	map_size.y = y_size;
 	max.square = 0;
-	dp = (int **)malloc(sizeof(int *) * (y_size));
-	while (map[0][map_size.x])
-		map_size.x++;
-	while (i < y_size)
-		dp[i++] = (int *)malloc(sizeof(int) * map_size.x);
-	while (j < map_size.x)
-	{
-		if (map[0][j] == empty)
-			dp[0][j] = 1;
-		else
-			dp[0][j] = 0;
-		j++;
-	}
-	j = -1;
-	while (++j < map_size.y)
-	{
-		if (map[j][0] == empty)
-			dp[j][0] = 1;
-		else
-			dp[j][0] = 0;
-	}
-	i = 0;
 	while (++i < map_size.y)
 	{
 		j = 0;
@@ -89,8 +116,8 @@ struct s_location	find_max_square(char **map, char empty, int y_size, char disab
 			if (map[i][j] == disable)
 				dp[i][j] = 0;
 			else
-				dp[i][j] = 1 + find_min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
-			if (dp[i][j] > max.square)
+				dp[i][j] = 1 + find_min(dp, i, j);
+			if (max.square < dp[i][j])
 			{
 				max.square = dp[i][j];
 				max.x = j;
@@ -101,50 +128,49 @@ struct s_location	find_max_square(char **map, char empty, int y_size, char disab
 	return (max);
 }
 
-int	set_map(char ***map, char *s, int sum)
+void	find_max_square(char **map, int y_size, char *sign)
 {
-	int		len;
-	int		i;
-	int		j;
-	int		k;
-	char	**set;
+	int	**dp;
+	t_location	max;
+	t_location	map_size;
 
-	len = 1;
-	set = (char **)malloc(sizeof(char*) * (sum + 1));
-	while (s[len] != '\n')
-		len++;
-	i = 0;
-	k = 1;
-	while (i < sum && s[k])
-	{
-		set[i] = (char *)malloc(sizeof(char) * (len));
-		j = 0;
-		while (j < len - 1)
-		{
-			if (s[k] == '\n')
-				return (0);
-			set[i][j++] = s[k++];
-		}
-		set[i][j] = 0;
-		if (s[k] != '\n')
-			return (0);
-		k++;
-		i++;
-	}
-	set[i] = 0;
-	*map = set;
-	return (1);
+	map_size.x = 0;
+	map_size.y = y_size;
+	max.square = 0;
+	while (map[0][map_size.x])
+		map_size.x++;
+	dp = find_first_line(map_size, map, sign[0]);
+	max =  use_dp(map_size, dp, map, sign[1]);
+	change_map(max, sign[2], map);
 }
 
-void add(int* size, char** s)
+char	**ft_malloc(int y, int x)   /*2차원 char형 배열 동적할당*/
+{
+	char	**set;
+	int		i;
+
+	set = (char **)malloc(sizeof(char *) * (y + 1));
+	if (!set)
+		return (0);
+	i = -1;
+	while (++i < y)
+	{
+		set[i] = (char *)malloc(sizeof(char *) * (x + 1));
+		if (!set[i])
+			return (0);
+	}
+	return (set);
+}
+
+void	add(int *size, char **s)       /*동적 할당 최신화*/
 {
 	int		i;
-	int		newsize;
 	char	*temp;
-	
+	int		new;
+
 	i = 0;
-	newsize = *size + 1;
-	temp = (char *)malloc(sizeof(char) * newsize);
+	new = *size + 1;
+	temp = (char *)malloc(sizeof(char) * new);
 	if (!temp)
 		return ;
 	while (i < *size)
@@ -152,30 +178,16 @@ void add(int* size, char** s)
 		temp[i] = (*s)[i];
 		i++;
 	}
+	*size = *size + 1;
 	temp[i] = 0;
 	free(*s);
 	*s = temp;
-	*size = *size + 1;;
 }
 
-void	print_error(int *fd)
-{
-	if (*fd == 0)
-	{
-		write(1, "map error\n", 10);
-		exit(1);
-	}
-	else if (*fd == 1)
-	{
-		write(1, "map error\n", 10);
-		close(*fd);
-	}
-}
-
-int	same_check(char c, char *sign, int n)
+int	same_check(char c, char *sign, int n)    /*첫 행의 문자와 같은 문자 오는지*/
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < n)
 	{
@@ -186,103 +198,179 @@ int	same_check(char c, char *sign, int n)
 	return (0);
 }
 
-int	main(int argc, char *argv[])
+char	*set_first(int size, char *sign, int *sum)    /*첫 행 정보 뽑기*/
 {
-	int		fd = 0;
 	int		i;
-	int		j;
-	char	c;
-	int		sum;
-	char	*sign;
-	char	*put;
-	char	**map;
-	int		size;
+	char	*word;
 
-	sum = 0;
-	c = '0';
+	word = (char *)malloc(sizeof(char) * 4);
+	if (!word)
+		return (0);
+	i = -1;
+	while (++i < 4)      /*빈, 장애물, 찬 문자 저장*/
+	{
+		word[i] = sign[size - 4 + i];
+		if (same_check(word[i], word, i))
+			return (0);
+		sign[size - 4 + i] = 0;
+	}
 	i = 0;
-	if (argc < 2) //fd == 0일때
+	*sum = 0;
+	while (sign[i])        /*세로 길이 저장*/
 	{
-		sign = (char*)malloc(sizeof(char) * 4);
-		if (!sign)
-			print_error(&fd);
-		while (c >= '0' && c <= '9')
-		{
-			read(fd, &c, 1);
-			if (c >= '0' && c <= '9')
-				sum = sum * 10 + (c - '0');
-			else
-				sign[i++] = c;
-		}
-		if (!sum)
-			print_error(&fd);
-		while (sign[i] != '\n' && i < 3)
-		{
-			read(fd, &sign[i], 1);
-			if (same_check(sign[i], sign, i))
-				print_error(&fd);
-			i++;
-		}
-		sign[i] = 0;
-		if (i != 3)
-			print_error(&fd);
-		size = 1;
-		put = (char *)malloc(sizeof(char) * size);
-		i = 0;
-		j = 0;
-		while (i < sum + 1)
-		{
-			read(fd, &put[j], 1);
-			if (put[j] == '\n')
-				i++;
-			else if (!same_check(put[j], sign, 3))
-				print_error(&fd);
-			add(&size, &put);
-			j++;
-		}
-		if (!set_map(&map, put, sum))
-			print_error(&fd);
-		t_location max = find_max_square(map, sign[0], sum, sign[1]);
-		printf("\n\n");
-		print_square(max, map, sum, sign[2]);
+		*sum = *sum * 10 + (sign[i] - '0');
+		i++;
 	}
-	/*
-	else
-	{
-		i = 0;
-		while (i < argc)
-		{
-			if (fd = open(argv[i], O_RDONLY <= 0))
-				write(1, "map error\n", 10);
-			else
-			{
-				while (//첫 행 끝날 때 까지)
-				{
-					if (//첫 행 조건 부합하지 않으면)
-					{
-						print_error(&fd);
-						break;
-					}
-					//숫자, 각 문자들 저장
-				}
-				while (//지도 끝날 때 까지)
-				{
-					if (//행의 길이 다르거나, 행이 없거나, 첫 행에서 없는 문자 나올 경우)
-					{
-						print_error(&fd);
-						break;
-					}
-					//배열에 지도 저장
-				}
-				//가장 큰 정사각형 출력
-				close(fd);
-			}
-			i++;
-		}
-	}
-	*/
-	exit (1);
+	free(sign);
+	sign = 0;
+	return (word);
 }
 
+char	*input_first(int fd, int *sum)      /*첫 행 정보에서 문자, 숫자 저장*/
+{
+	char	*sign;
+	char	*word;
+	char	c;
+	int		size;
 
+	sign = (char *)malloc(sizeof(char));
+	if (!sign)
+		return (0);
+	size = 1;
+	c = 0;
+	while (c != '\n')
+	{
+		read(fd, &c, 1);
+		if (c != '\n')
+		{
+			sign[size - 1] = c;
+			add(&size, &sign);
+		}
+	}
+	if (size < 5)
+		return (0);
+	word = set_first(size, sign, sum);
+	return (word);
+}
 
+int	ft_strlen(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char	*read_one(int fd, char *sign)
+{
+	char	*set;
+	char	c;
+	int		size;
+
+	set = (char *)malloc(sizeof(char));
+	if (!set)
+		return (0);
+	c = 0;
+	size = 1;
+	while (c != '\n')
+	{
+		read(fd, &c, 1);
+		if (c != '\n')
+		{
+			if (!same_check(c, sign, 2))
+				return (0);
+			set[size - 1] = c;
+			add(&size, &set);
+		}
+	}
+	return (set);
+}
+
+char	**make_map(int fd, int sum, char *sign)
+{
+	char	**map;
+	int		i;
+
+	map = (char **)malloc(sizeof(char*) * (sum + 1));
+	if (!map)
+		return (0);
+	i = 0;
+	while (i < sum)
+	{
+		map[i] = read_one(fd, sign);
+		if (!map[i])
+			return (0);
+		i++;
+	}
+	map[i] = 0;
+	i = 1;
+	while (i < sum)
+	{
+		if (ft_strlen(map[i - 1]) != ft_strlen(map[i]))
+			return (0);
+		i++;
+	}
+	return (map);
+}
+
+void	memory_free(char *sign, char **map)
+{
+	int	i;
+
+	i = 0;
+	free(sign);
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+}
+
+int	input_data(int fd)
+{
+	int			sum;
+	char		*sign;
+	char		**map;
+
+	sign = input_first(fd, &sum);
+	if (!sign)
+		return (0);
+	map = make_map(fd, sum, sign);
+	if (!map)
+		return (0);
+	find_max_square(map, sum, sign);
+	print_square(map, sum);
+	memory_free(sign, map);
+	return (1);
+}
+
+int	main(int argc, char *argv[])
+{
+	int	fd;
+	int	i;
+
+	fd = 0;
+	if (argc < 2)
+	{
+		if (!input_data(fd))
+			write(1, "map error\n", 10);
+	}
+	else if (argc >= 2)
+	{
+		i = 1;
+		while (i < argc)
+		{
+			fd = open(argv[i], O_RDONLY);
+			if (!input_data(fd))
+				write(1, "map error\n", 10);
+			close(fd);
+			i++;
+			if (i != argc)
+				write(1, "\n", 1);
+		}
+	}
+	return (0);
+}
